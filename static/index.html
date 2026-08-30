@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFFECT — Text Emotion Analyzer</title>
+<meta name="description" content="A bidirectional GRU model reads the emotion in a sentence: sadness, joy, love, anger, fear, or surprise.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Served from FastAPI's mounted static dir — absolute paths so they resolve
+     the same whether this document loads at "/" or "/static/index.html" -->
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<div class="rail">
+  <div class="rail-top">
+    <span class="brand">AFFECT<span class="brand-blip"></span></span>
+  </div>
+
+  <div class="rail-mid">
+    <span class="rail-vert">SIX-CLASS EMOTION READER — BiGRU / NLP</span>
+  </div>
+
+  <div class="rail-bottom">
+    <div class="status bracket" id="statusPill">
+      <span class="status-led" id="statusDot"></span>
+      <span id="statusText">CHECKING</span>
+    </div>
+
+    <div class="theme-switch bracket" id="themeSwitch" role="group" aria-label="Colour theme">
+      <button type="button" class="theme-opt" data-theme-choice="dark" id="themeDarkBtn" aria-pressed="true">DARK</button>
+      <button type="button" class="theme-opt" data-theme-choice="light" id="themeLightBtn" aria-pressed="false">LIGHT</button>
+      <span class="theme-thumb" id="themeThumb" aria-hidden="true"></span>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <div class="wrap">
+
+    <section class="hero">
+      <p class="eyebrow fade-in d1"><span class="tick">◆</span> READOUT 01 / INPUT</p>
+      <h1 class="fade-in d2">What does this<br>text <em id="emWord">feel</em>?</h1>
+      <p class="hero-sub fade-in d3">Type a sentence. A bidirectional GRU trained on six labelled emotions reads it and reports the full probability spread — not just a guess.</p>
+
+      <form class="analyzer fade-in d4" id="analyzeForm" novalidate>
+        <div class="input-shell bracket">
+          <textarea
+            id="textInput"
+            maxlength="2000"
+            rows="3"
+            placeholder="I finally got the internship offer I've been waiting for all semester…"
+            aria-label="Text to analyze"
+            required></textarea>
+          <div class="analyzer-foot">
+            <span class="char-count"><span id="charCount">0</span> / 2000</span>
+            <button type="submit" class="analyze-btn" id="analyzeBtn">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-label">ANALYZE</span>
+              <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="chip-row">
+          <span class="chip-label">SAMPLES —</span>
+          <button type="button" class="sample-chip" data-sample="I can't believe you forgot our anniversary again.">forgotten anniversary</button>
+          <button type="button" class="sample-chip" data-sample="I just found out I passed my board exams on the first try!">passed exams</button>
+          <button type="button" class="sample-chip" data-sample="I heard something scratching behind the wall and the lights went out.">something in the wall</button>
+          <button type="button" class="sample-chip" data-sample="She looked at the photo and quietly started crying.">the old photo</button>
+          <button type="button" class="sample-chip" data-sample="Wait, you planned this whole surprise party without me finding out?">the surprise party</button>
+        </div>
+      </form>
+
+      <p class="error-msg" id="errorMsg" role="alert" hidden></p>
+    </section>
+
+    <section class="results bracket" id="results" hidden aria-live="polite">
+      <p class="eyebrow"><span class="tick">◆</span> READOUT 02 / OUTPUT</p>
+      <div class="results-grid">
+        <div class="spectrograph-wrap">
+          <svg id="spectrograph" viewBox="0 0 340 340" role="img" aria-label="Emotion probability spectrum"></svg>
+        </div>
+        <div class="verdict">
+          <div class="verdict-top">
+            <div class="verdict-emoji-ring" id="verdictRing">
+              <span class="verdict-emoji" id="verdictEmoji">😄</span>
+            </div>
+            <div>
+              <p class="verdict-label" id="verdictLabel">Joy</p>
+              <p class="verdict-confidence"><span id="verdictConfidence">0</span><span>%</span> <span>confidence</span></p>
+            </div>
+          </div>
+          <ul class="prob-list" id="probList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="process">
+      <p class="eyebrow"><span class="tick">◆</span> READOUT 03 / PIPELINE</p>
+      <h2>How it reads a sentence</h2>
+      <ol class="steps">
+        <li class="bracket">
+          <span class="step-num">01</span>
+          <h3>Clean</h3>
+          <p>Text is lowercased, apostrophes dropped, punctuation stripped — matching exactly how the training data was prepared.</p>
+        </li>
+        <li class="bracket">
+          <span class="step-num">02</span>
+          <h3>Tokenize</h3>
+          <p>Each surviving word is mapped to an integer ID from the vocabulary the tokenizer learned during training.</p>
+        </li>
+        <li class="bracket">
+          <span class="step-num">03</span>
+          <h3>Pad</h3>
+          <p>The sequence is trimmed or padded to a fixed length of 50 tokens so the model always sees a uniform shape.</p>
+        </li>
+        <li class="bracket">
+          <span class="step-num">04</span>
+          <h3>Predict</h3>
+          <p>A bidirectional GRU reads the sequence forward and backward, then outputs a probability for each of six emotions.</p>
+        </li>
+      </ol>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span class="stack-chips">FASTAPI · TENSORFLOW/KERAS · BiGRU · NLP</span>
+      <span class="footer-note">Runs on the server you're connected to — nothing you type is stored.</span>
+    </div>
+  </footer>
+</main>
+
+<script src="/static/script.js" defer></script>
+</body>
+</html>
