@@ -34,6 +34,10 @@ The application predicts one of six emotions:
 
 <br/>
 
+## 🌍 Live Demo
+
+https://text-emotion-classifier-k759.onrender.com/
+
 ## ✨ Highlights
 
 - 🔡 **Six-class emotion prediction** — returns the predicted emotion together with the complete probability distribution.
