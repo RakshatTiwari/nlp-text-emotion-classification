@@ -1,4 +1,3 @@
-
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from fastapi.staticfiles import StaticFiles
@@ -11,13 +10,15 @@ from keras.models import load_model
 import numpy as np
 import pickle
 import re
+from pathlib import Path
 
 
 # Model Path (BiGRU)
-model_path = "Artifacts/BiGRU_Model.keras"
+base_dir = Path(__file__).resolve().parent
+model_path = base_dir / "Artifacts" / "BiGRU_Model.keras"
 
 # Tokenizer Path
-tokenizer_path = "Artifacts/tokenizer.pkl"
+tokenizer_path = base_dir / "Artifacts" / "tokenizer.pkl"
 
 # Max Sequence Length
 max_sequence_length = 50
@@ -89,10 +90,16 @@ dl_model = {}
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print('Loading the model and tokenizer...')
-    dl_model["BiGRU"] = load_model(model_path)     #BiGRU Model
-    with open(tokenizer_path, 'rb') as file:
-        dl_model["Tokenizer"] = pickle.load(file)
-    print('Model are loaded successfully...')   
+
+    try:
+        dl_model["BiGRU"] = load_model(model_path)     #BiGRU Model
+        with open(tokenizer_path, 'rb') as file:
+            dl_model["Tokenizer"] = pickle.load(file)
+        print('Model are loaded successfully...')
+
+    except Exception as error:
+        print(f"Error loading model or tokenizer: {error}")
+        dl_model.clear()
 
     yield #Pause, model is laoded and server is running and at this point model waits for the request
     dl_model.clear()
@@ -115,7 +122,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount('/static', StaticFiles(directory="static"), name="static")
+app.mount('/static', StaticFiles(directory=base_dir / "static"), name="static")
 
 
 # API Endpoints
@@ -123,7 +130,7 @@ app.mount('/static', StaticFiles(directory="static"), name="static")
 # Server UI at homepage ('/')
 @app.get('/', include_in_schema=False)
 def server_ui():
-    return FileResponse('static/index.html')
+    return FileResponse(base_dir / 'static' / 'index.html')
 
 # Health Check Endpoint ('/health')
 @app.get('/health', response_model=HealthResponse)
@@ -159,12 +166,14 @@ def predict_emotion(text_input: TextInput):
         truncating="post"
     )
 
-    probabilites = BiGRU_model.predict(padded_sequence)[0]
+    probabilites = BiGRU_model.predict(
+        padded_sequence,
+        verbose=0
+    )[0]
 
     top_emotion_index = int(np.argmax(probabilites))
-    all_probabilites =  {
+    all_probabilites = {
         label: float(prob) for prob, label in zip(probabilites, emotion_labels)
-          
     }
 
     return PredictionResponse(
