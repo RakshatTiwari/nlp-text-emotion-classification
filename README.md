@@ -2,12 +2,6 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0C0D,100:1B1D22&height=200&section=header&text=AFFECT&fontSize=72&fontColor=FFB000&animation=fadeIn&fontAlignY=38&desc=Text%20Emotion%20Classifier%20%E2%80%94%20BiGRU%20%2B%20FastAPI&descAlignY=58&descSize=18&descColor=ECECE9" width="100%"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=22&duration=2800&pause=900&color=FFB000&center=true&vCenter=true&width=640&lines=Bidirectional+GRU+%C2%B7+NLP+%C2%B7+FastAPI;92.85%25+test+accuracy+on+6+emotions;sadness+%C2%B7+joy+%C2%B7+love+%C2%B7+anger+%C2%B7+fear+%C2%B7+surprise;trained+on+the+dair-ai%2Femotion+dataset" alt="AFFECT project highlights" />
-
-</div>
-
-<br/>
-
 ## What is AFFECT?
 
 A sentence goes in, six probabilities come out.
