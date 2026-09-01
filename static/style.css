@@ -247,9 +247,6 @@ textarea::placeholder{ color:var(--text-faint); }
   margin-top:14px; font-size:13px; color:var(--anger); font-family:'IBM Plex Mono', monospace;
   display:flex; align-items:center; gap:8px;
 }
-.error-msg[hidden]{
-  display:none;
-}
 .error-msg::before{ content:'!!'; }
 
 /* ---------- results ---------- */
@@ -258,9 +255,7 @@ textarea::placeholder{ color:var(--text-faint); }
   background:var(--panel); border:1px solid var(--line);
   opacity:0; transform:translateY(8px);
 }
-.results.result-visible{
-  animation:fadeUp .55s var(--ease) forwards;
-}
+.results.show{ animation:fadeUp .55s var(--ease) forwards; }
 .results .eyebrow{ margin-bottom:22px; }
 
 .results-grid{ display:grid; grid-template-columns:320px 1fr; gap:38px; align-items:center; }
