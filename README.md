@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0C0D,100:1B1D22&height=200&section=header&text=AFFECT&fontSize=72&fontColor=FFB000&animation=fadeIn&fontAlignY=38&desc=Text%20Emotion%20Classifier%20%E2%80%94%20BiGRU%20%2B%20FastAPI&descAlignY=58&descSize=18&descColor=ECECE9" width="100%"/>
+# AFFECT
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Poppins&weight=600&size=25&pause=1200&color=36BCF7&center=true&vCenter=true&width=1100&lines=AFFECT+-+Text+Emotion+Classifier;BiDirectional+GRU+|+FastAPI;Tensorflow+|+Keras)](https://git.io/typing-svg)
 
 </div>
 
@@ -96,8 +98,6 @@ The trained model and tokenizer are loaded when the FastAPI application starts, 
 <img src="https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras&logoColor=white" />
 <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" />
 <img src="https://img.shields.io/badge/pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" />
-<img src="https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" />
-<img src="https://img.shields.io/badge/🤗%20Datasets-FFD21E?style=for-the-badge&logoColor=black" />
 <img src="https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge" />
 <img src="https://img.shields.io/badge/Seaborn-3776AB?style=for-the-badge" />
 
