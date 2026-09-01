@@ -16,13 +16,13 @@ The application predicts one of six emotions:
 
 | | |
 |---|---|
-| 🧠 **Model** | Bidirectional GRU (Keras / TensorFlow) |
-| 🎯 **Task** | 6-class text emotion classification |
-| 📊 **Test accuracy** | **92.85%** |
-| 📉 **Test loss** | **0.196** |
-| 🗂️ **Dataset** | `dair-ai/emotion` (~20k labelled sentences) |
-| ⚙️ **Backend** | FastAPI · Uvicorn |
-| 🎨 **Frontend** | Vanilla HTML / CSS / JavaScript |
+| **Model** | Bidirectional GRU (Keras / TensorFlow) |
+| **Task** | 6-class text emotion classification |
+| **Test accuracy** | **92.85%** |
+| **Test loss** | **0.196** |
+| **Dataset** | `dair-ai/emotion` (~20k labelled sentences) |
+| **Backend** | FastAPI · Uvicorn |
+| **Frontend** | Vanilla HTML / CSS / JavaScript |
 
 </div>
 
@@ -34,13 +34,13 @@ https://text-emotion-classifier-k759.onrender.com/
 
 ## ✨ Highlights
 
-- 🔡 **Six-class emotion prediction** — returns the predicted emotion together with the complete probability distribution.
-- 🧠 **Bidirectional GRU architecture** — uses context from both directions of the input sequence.
-- 🧪 **Model comparison** — Simple RNN, LSTM, GRU, and Bidirectional GRU architectures were evaluated before selecting the final model.
-- ⚖️ **Class-weighted training** — balanced class weights were used to account for the uneven class distribution in the training data.
-- 🛑 **Early stopping** — training restores the best-performing weights when the monitored loss stops improving.
-- ⚡ **FastAPI inference API** — a simple `/predict` endpoint provides the prediction, confidence, and probability breakdown.
-- 🖥️ **Framework-free frontend** — includes a probability visualization, dark/light themes, and sample prompts without a frontend build system.
+- **Six-class emotion prediction** — returns the predicted emotion together with the complete probability distribution.
+- **Bidirectional GRU architecture** — uses context from both directions of the input sequence.
+- **Model comparison** — Simple RNN, LSTM, GRU, and Bidirectional GRU architectures were evaluated before selecting the final model.
+- **Class-weighted training** — balanced class weights were used to account for the uneven class distribution in the training data.
+- **Early stopping** — training restores the best-performing weights when the monitored loss stops improving.
+- **FastAPI inference API** — a simple `/predict` endpoint provides the prediction, confidence, and probability breakdown.
+- **Framework-free frontend** — includes a probability visualization, dark/light themes, and sample prompts without a frontend build system.
 
 <br/>
 
@@ -116,6 +116,34 @@ The trained model and tokenizer are loaded when the FastAPI application starts, 
 <img src="https://img.shields.io/badge/Git%20LFS-F64935?style=for-the-badge&logo=git-lfs&logoColor=white" />
 
 </div>
+
+<br/>
+
+## 📚 Project workflow
+
+The project covers the complete path from dataset to deployed inference:
+
+```text
+Emotion dataset
+      ↓
+Exploratory analysis
+      ↓
+Text preprocessing & tokenization
+      ↓
+Sequence padding
+      ↓
+Model comparison
+      ↓
+Bidirectional GRU selection
+      ↓
+Evaluation & confusion matrix
+      ↓
+Saved model + tokenizer
+      ↓
+FastAPI inference
+      ↓
+Web interface
+```
 
 <br/>
 
@@ -196,7 +224,7 @@ The API also returns probabilities for all six emotions, allowing the result to 
 ## 📁 Project structure
 
 ```text
-.
+
 ├── main.py
 ├── requirements.txt
 ├── runtime.txt
@@ -250,34 +278,6 @@ Then open:
 **http://127.0.0.1:8000/**
 
 The API is also available at the same address, with the interactive FastAPI documentation at `/docs`.
-
-<br/>
-
-## 📚 Project workflow
-
-The project covers the complete path from dataset to deployed inference:
-
-```text
-Emotion dataset
-      ↓
-Exploratory analysis
-      ↓
-Text preprocessing & tokenization
-      ↓
-Sequence padding
-      ↓
-Model comparison
-      ↓
-Bidirectional GRU selection
-      ↓
-Evaluation & confusion matrix
-      ↓
-Saved model + tokenizer
-      ↓
-FastAPI inference
-      ↓
-Web interface
-```
 
 <br/>
 
