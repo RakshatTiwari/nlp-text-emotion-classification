@@ -2,6 +2,10 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0C0D,100:1B1D22&height=200&section=header&text=AFFECT&fontSize=72&fontColor=FFB000&animation=fadeIn&fontAlignY=38&desc=Text%20Emotion%20Classifier%20%E2%80%94%20BiGRU%20%2B%20FastAPI&descAlignY=58&descSize=18&descColor=ECECE9" width="100%"/>
 
+</div>
+
+<br/>
+
 ## What is AFFECT?
 
 A sentence goes in, six probabilities come out.
@@ -119,34 +123,6 @@ The trained model and tokenizer are loaded when the FastAPI application starts, 
 
 <br/>
 
-## 📚 Project workflow
-
-The project covers the complete path from dataset to deployed inference:
-
-```text
-Emotion dataset
-      ↓
-Exploratory analysis
-      ↓
-Text preprocessing & tokenization
-      ↓
-Sequence padding
-      ↓
-Model comparison
-      ↓
-Bidirectional GRU selection
-      ↓
-Evaluation & confusion matrix
-      ↓
-Saved model + tokenizer
-      ↓
-FastAPI inference
-      ↓
-Web interface
-```
-
-<br/>
-
 ## 📊 Model results
 
 Four recurrent architectures were evaluated using the same general training setup: an embedding layer, recurrent layers, dropout, a softmax output layer, Adam optimization, balanced class weights, and early stopping.
@@ -156,7 +132,7 @@ Four recurrent architectures were evaluated using the same general training setu
 | Simple RNN | 26.60% | 1.735 |
 | LSTM | 11.20% | 1.805 |
 | GRU | 8.20% | 1.801 |
-| **Bidirectional GRU** ✅ | **92.85%** | **0.196** |
+| **Bidirectional GRU** | **92.85%** | **0.196** |
 
 The final Bidirectional GRU uses a **300-dimensional embedding**, followed by Bidirectional GRU layers with **128** and **64** units.
 
@@ -225,6 +201,7 @@ The API also returns probabilities for all six emotions, allowing the result to 
 
 ```text
 
+nlp-text-emotion-classification/
 ├── main.py
 ├── requirements.txt
 ├── runtime.txt
@@ -278,6 +255,34 @@ Then open:
 **http://127.0.0.1:8000/**
 
 The API is also available at the same address, with the interactive FastAPI documentation at `/docs`.
+
+<br/>
+
+## 📚 Project workflow
+
+The project covers the complete path from dataset to deployed inference:
+
+```text
+Emotion dataset
+      ↓
+Exploratory analysis
+      ↓
+Text preprocessing & tokenization
+      ↓
+Sequence padding
+      ↓
+Model comparison
+      ↓
+Bidirectional GRU selection
+      ↓
+Evaluation & confusion matrix
+      ↓
+Saved model + tokenizer
+      ↓
+FastAPI inference
+      ↓
+Web interface
+```
 
 <br/>
 
