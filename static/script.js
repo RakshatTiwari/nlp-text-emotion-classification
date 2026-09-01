@@ -314,67 +314,6 @@ textInput.addEventListener("keydown", (event) => {
   }
 });
 
-(function initEmotionParticles() {
-  if (reduceMotion) return;
-
-  const particleLayer = document.createElement("div");
-
-  particleLayer.className = "emotion-particle-layer";
-
-  particleLayer.setAttribute("aria-hidden", "true");
-
-  document.body.appendChild(particleLayer);
-
-  const particleEmojis = ["😢", "😄", "❤️", "😠", "😨", "😲"];
-
-  const maxParticles = 14;
-
-  function createParticle() {
-    if (particleLayer.children.length >= maxParticles) {
-      return;
-    }
-
-    const particle = document.createElement("span");
-
-    particle.className = "emotion-particle";
-
-    particle.textContent =
-      particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
-
-    particle.style.left = `${8 + Math.random() * 84}%`;
-
-    particle.style.top = `${18 + Math.random() * 70}%`;
-
-    particle.style.setProperty("--drift-x", `${(Math.random() - 0.5) * 90}px`);
-
-    particle.style.setProperty("--drift-y", `${-45 - Math.random() * 90}px`);
-
-    particle.style.setProperty(
-      "--particle-duration",
-      `${7 + Math.random() * 7}s`,
-    );
-
-    particle.style.setProperty("--particle-delay", `${Math.random() * 1.5}s`);
-
-    particle.style.setProperty(
-      "--particle-size",
-      `${13 + Math.random() * 13}px`,
-    );
-
-    particleLayer.appendChild(particle);
-
-    particle.addEventListener("animationend", () => particle.remove(), {
-      once: true,
-    });
-  }
-
-  for (let i = 0; i < 8; i++) {
-    setTimeout(createParticle, i * 650);
-  }
-
-  setInterval(createParticle, 1800);
-})();
-
 (function initEmotionWord() {
   if (reduceMotion || !emWord) return;
 
